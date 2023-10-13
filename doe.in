@@ -1,0 +1,39 @@
+# Dakota configuration file for LHS
+
+environment
+  tabular_data
+    tabular_data_file = "doe.dat"
+
+method
+  id_method = "SAMPLING"
+  sampling
+    samples = 10
+    seed = 531
+    sample_type lhs
+    model_pointer = "TRUTH"
+
+model
+  id_model = "TRUTH"
+  single
+    interface_pointer = "TRUE_FN"
+    responses_pointer = "TRUE_RESP"
+
+variables
+  continuous_design = 2
+    lower_bounds -2.0 -2.0
+    upper_bounds  2.0  2.0
+    descriptors  "x1" "x2"
+
+interface
+  id_interface = "TRUE_FN"
+  analysis_drivers = "sinc"
+    fork
+    parameters_file = "x.in"
+    results_file    = "y.out"
+deactivate evaluation_cache restart_file
+
+responses
+  id_responses = "TRUE_RESP"
+  objective_functions = 1
+  no_gradients
+  no_hessians

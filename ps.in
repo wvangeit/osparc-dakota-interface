@@ -1,0 +1,29 @@
+# Dakota Input File
+
+environment
+  tabular_data
+    tabular_data_file = 'ps.dat'
+
+method
+  multidim_parameter_study
+    partitions = 8 8
+
+model
+  single
+
+variables
+  continuous_design = 2
+    lower_bounds     -2.0     -2.0
+    upper_bounds      2.0      2.0
+    descriptors       'x1'     "x2"
+
+interface
+  analysis_drivers = 'sinc'
+    fork
+    parameters_file = 'x.in'
+    results_file    = 'y.out'
+
+responses
+  response_functions = 1
+  no_gradients
+  no_hessians

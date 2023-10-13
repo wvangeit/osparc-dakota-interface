@@ -1,0 +1,11 @@
+%YAML 1.1
+---
+ANONYMOUS->Trend->Options:
+  max degree: 2
+  reduced basis: true
+  verbosity: 1
+  p-norm: 1.00000000000000000e+00
+  scaler type: none
+  regression solver type: SVD
+  standardize response: false
+...

@@ -1,0 +1,3106 @@
+Dakota version 6.16 released May 16 2022.
+Repository revision 43c9862b3 (2022-05-06) built Mar  6 2023 13:43:40.
+Running MPI Dakota executable in serial mode.
+Start time: Fri Oct 13 15:01:46 2023
+
+-----------------------
+Begin DAKOTA input file
+sbo.in
+-----------------------
+# Dakota Input File: rosen_opt_sbo.in
+
+environment
+  tabular_data
+    tabular_data_file = 'sbo.dat'
+  top_method_pointer = 'SBLO'
+
+method
+  id_method = 'SBLO'
+  surrogate_based_local
+    model_pointer = 'SURROGATE'
+    method_pointer = 'NLP'
+    max_iterations = 500
+  trust_region
+    initial_size = 0.10
+    minimum_size = 1.0e-6
+    contract_threshold = 0.25
+    expand_threshold   = 0.75
+    contraction_factor = 0.50
+    expansion_factor   = 1.50
+
+method
+  id_method = 'NLP'
+  conmin_frcg
+    max_iterations = 50
+    convergence_tolerance = 1e-8
+
+# PRS surrogate
+# model
+#   id_model = 'SURROGATE'
+#   surrogate global
+#     correction additive zeroth_order
+#     polynomial quadratic
+#     dace_method_pointer = 'SAMPLING'
+#   responses_pointer = 'SURROGATE_RESP'
+# GP surrogate
+model
+  id_model = 'SURROGATE'
+  surrogate global
+    dace_method_pointer = 'SAMPLING'
+    experimental_gaussian_process
+      metrics 'root_mean_squared'
+        cross_validation folds 5
+      export_model
+        filename_prefix = 'gp_export'
+        # formats = binary_archive
+        formats = text_archive
+      export_approx_points_file 'gp_values.dat'
+      export_approx_variance_file 'gp_variance.dat'
+  variables_pointer = 'SURROGATE_VARS'
+  responses_pointer = 'SURROGATE_RESP'
+
+variables
+  id_variables = 'SURROGATE_VARS'
+  continuous_design = 2
+    initial_point   -1.2  1.0
+    lower_bounds    -2.0 -2.0
+    upper_bounds     2.0  2.0
+    descriptors      'x1' 'x2'
+
+responses
+  id_responses = 'SURROGATE_RESP'
+  objective_functions = 1
+  numerical_gradients
+    method_source dakota
+    interval_type central
+    fd_step_size = 1.e-6
+  no_hessians
+
+method
+  id_method = 'SAMPLING'
+  sampling
+    samples = 10
+    seed = 531
+    sample_type lhs
+    model_pointer = 'TRUTH'
+
+model
+  id_model = 'TRUTH'
+  single
+    interface_pointer = 'TRUE_FN'
+    responses_pointer = 'TRUE_RESP'
+
+interface
+  id_interface = 'TRUE_FN'
+  analysis_drivers = 'sinc'
+    fork
+    parameters_file = 'x.in'
+    results_file    = 'y.out'
+  deactivate evaluation_cache restart_file
+
+responses
+  id_responses = 'TRUE_RESP'
+  objective_functions = 1
+  no_gradients
+  no_hessians
+---------------------
+End DAKOTA input file
+---------------------
+
+Using Dakota input file 'sbo.in'
+Writing new restart file 'dakota.rst'.
+
+>>>>> Executing environment.
+
+>>>>> Running surrogate_based_local iterator.
+
+**************************************************************************
+Begin SBLM Iteration Number 1
+
+Current Trust Region for surrogate model
+                               Lower             Center              Upper
+              x1:               -1.4               -1.2                 -1
+              x2:                0.8                  1                1.2
+**************************************************************************
+
+>>>>> Evaluating actual model at trust region center.
+
+------------------------------
+Begin  TRUE_FN Evaluation    1
+------------------------------
+Parameters for evaluation 1:
+                     -1.2000000000e+00 x1
+                      1.0000000000e+00 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 1:
+Active set vector = { 1 }
+                     -1.9991751553e-01 obj_fn
+
+
+
+>>>>> Building global_exp_gauss_proc approximations.
+
+NonD lhs Samples = 10 Seed (user-specified) = 531
+
+------------------------------
+Begin  TRUE_FN Evaluation    2
+------------------------------
+Parameters for evaluation 2:
+                     -1.0005765712e+00 x1
+                      1.1427787403e+00 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 2:
+Active set vector = { 1 }
+                     -2.0919445232e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation    3
+------------------------------
+Parameters for evaluation 3:
+                     -1.1681168302e+00 x1
+                      1.1151787353e+00 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 3:
+Active set vector = { 1 }
+                     -1.8438295735e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation    4
+------------------------------
+Parameters for evaluation 4:
+                     -1.3058021693e+00 x1
+                      8.0768542959e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 4:
+Active set vector = { 1 }
+                     -2.0603177953e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation    5
+------------------------------
+Parameters for evaluation 5:
+                     -1.1342785962e+00 x1
+                      8.7001987106e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 5:
+Active set vector = { 1 }
+                     -2.1723297848e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation    6
+------------------------------
+Parameters for evaluation 6:
+                     -1.2020023168e+00 x1
+                      1.0606708731e+00 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 6:
+Active set vector = { 1 }
+                     -1.8824388606e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation    7
+------------------------------
+Parameters for evaluation 7:
+                     -1.0862312629e+00 x1
+                      9.0233083408e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 7:
+Active set vector = { 1 }
+                     -2.1687673463e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation    8
+------------------------------
+Parameters for evaluation 8:
+                     -1.3474212558e+00 x1
+                      1.1926847369e+00 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 8:
+Active set vector = { 1 }
+                     -1.0421923924e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation    9
+------------------------------
+Parameters for evaluation 9:
+                     -1.2412915380e+00 x1
+                      9.2089480891e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 9:
+Active set vector = { 1 }
+                     -2.0383818104e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   10
+------------------------------
+Parameters for evaluation 10:
+                     -1.3724076816e+00 x1
+                      1.0285608258e+00 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 10:
+Active set vector = { 1 }
+                     -1.4482238606e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   11
+------------------------------
+Parameters for evaluation 11:
+                     -1.0408147430e+00 x1
+                      9.7728593681e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 11:
+Active set vector = { 1 }
+                     -2.1722650004e-01 obj_fn
+
+
+
+>>>>> Appending 10 points to global_exp_gauss_proc approximations.
+
+<<<<< global_exp_gauss_proc approximation updates completed.
+Constructing global approximations with one anchor, 10 DACE samples, and 0 reused points.
+
+Surrogate quality metrics at build (training) points for obj_fn:
+   root_mean_squared  4.1843104617e-18
+
+Surrogate quality metrics (5-fold CV) for obj_fn:
+   root_mean_squared  2.2220744499e-02
+
+<<<<< global_exp_gauss_proc approximation builds completed.
+
+>>>>> Evaluating approximation at trust region center.
+Beginning Approximate Fn Evaluations...
+
+>>>>> Starting approximate optimization cycle.
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -2.6169096854e-01  1.6975451374e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.9114267456e-01  1.5757433222e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.8852883592e-01  7.5783530701e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  3.1107027168e-03  7.5785984537e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.8286441096e-06  7.5785926770e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.8286441096e-06  7.5785926770e-02 ] obj_fn gradient
+
+
+
+<<<<< Approximate optimization cycle completed.
+
+>>>>> Evaluating approximate solution with actual model.
+
+------------------------------
+Begin  TRUE_FN Evaluation   12
+------------------------------
+Parameters for evaluation 12:
+                     -1.1684418614e+00 x1
+                      8.0000000000e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 12:
+Active set vector = { 1 }
+                     -2.1701526336e-01 obj_fn
+
+
+
+<<<<< Trust Region Ratio = 5.3954239671e-01:
+<<<<< Satisfactory Accuracy, ACCEPT Step, RETAIN Trust Region Size
+
+
+**************************************************************************
+Begin SBLM Iteration Number 2
+
+Current Trust Region for surrogate model
+                               Lower             Center              Upper
+              x1:  -1.3684418614e+00  -1.1684418614e+00  -9.6844186142e-01
+              x2:   6.0000000000e-01   8.0000000000e-01   1.0000000000e+00
+**************************************************************************
+
+>>>>> Building global_exp_gauss_proc approximations.
+
+NonD lhs Samples = 10 Seed not reset from previous LHS execution
+
+------------------------------
+Begin  TRUE_FN Evaluation   13
+------------------------------
+Parameters for evaluation 13:
+                     -1.2511687032e+00 x1
+                      6.3046095646e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 13:
+Active set vector = { 1 }
+                     -2.1630372212e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   14
+------------------------------
+Parameters for evaluation 14:
+                     -1.1766373389e+00 x1
+                      9.2833746245e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 14:
+Active set vector = { 1 }
+                     -2.1238034742e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   15
+------------------------------
+Parameters for evaluation 15:
+                     -1.0527756681e+00 x1
+                      9.0314531010e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 15:
+Active set vector = { 1 }
+                     -2.1519361853e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   16
+------------------------------
+Parameters for evaluation 16:
+                     -1.0213910232e+00 x1
+                      8.0486386269e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 16:
+Active set vector = { 1 }
+                     -1.9821117340e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   17
+------------------------------
+Parameters for evaluation 17:
+                     -1.3050846763e+00 x1
+                      7.5785159050e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 17:
+Active set vector = { 1 }
+                     -2.1083014289e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   18
+------------------------------
+Parameters for evaluation 18:
+                     -1.1109542529e+00 x1
+                      7.6595024205e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 18:
+Active set vector = { 1 }
+                     -2.0997850569e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   19
+------------------------------
+Parameters for evaluation 19:
+                     -9.8632443821e-01 x1
+                      7.0090130283e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 19:
+Active set vector = { 1 }
+                     -1.6123470531e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   20
+------------------------------
+Parameters for evaluation 20:
+                     -1.2438916769e+00 x1
+                      6.5145382136e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 20:
+Active set vector = { 1 }
+                     -2.1649250883e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   21
+------------------------------
+Parameters for evaluation 21:
+                     -1.1358210833e+00 x1
+                      8.7122969876e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 21:
+Active set vector = { 1 }
+                     -2.1723213168e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   22
+------------------------------
+Parameters for evaluation 22:
+                     -1.3645396584e+00 x1
+                      9.6307329856e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 22:
+Active set vector = { 1 }
+                     -1.6399165184e-01 obj_fn
+
+
+
+>>>>> Appending 10 points to global_exp_gauss_proc approximations.
+
+<<<<< global_exp_gauss_proc approximation updates completed.
+Constructing global approximations with one anchor, 10 DACE samples, and 0 reused points.
+
+Surrogate quality metrics at build (training) points for obj_fn:
+   root_mean_squared  0.0000000000e+00
+
+Surrogate quality metrics (5-fold CV) for obj_fn:
+   root_mean_squared  1.3929878195e-02
+
+<<<<< global_exp_gauss_proc approximation builds completed.
+
+>>>>> Evaluating approximation at trust region center.
+
+>>>>> Starting approximate optimization cycle.
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -2.3757726671e-01 -8.6413301167e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -6.4414198403e-02 -8.4101585254e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -4.2847829024e-03 -8.2456692863e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.0942292987e-02 -7.7189650809e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -5.2540781272e-03 -7.4379191201e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  4.7607935500e-05 -8.3892627012e-07 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.9041780090e-08 -8.0834309140e-07 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -7.4132615737e-07 -1.7451823893e-08 ] obj_fn gradient
+
+
+
+<<<<< Approximate optimization cycle completed.
+
+>>>>> Evaluating approximate solution with actual model.
+
+------------------------------
+Begin  TRUE_FN Evaluation   23
+------------------------------
+Parameters for evaluation 23:
+                     -1.1500578767e+00 x1
+                      8.1906175229e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 23:
+Active set vector = { 1 }
+                     -2.1686824869e-01 obj_fn
+
+
+
+<<<<< Iterate rejected by Filter, Trust Region Ratio = -5.5087655814e-02:
+<<<<< Poor accuracy, REJECT Step, REDUCE Trust Region Size
+
+
+**************************************************************************
+Begin SBLM Iteration Number 3
+
+Current Trust Region for surrogate model
+                               Lower             Center              Upper
+              x1:  -1.2684418614e+00  -1.1684418614e+00  -1.0684418614e+00
+              x2:   7.0000000000e-01   8.0000000000e-01   9.0000000000e-01
+**************************************************************************
+
+>>>>> Building global_exp_gauss_proc approximations.
+
+NonD lhs Samples = 10 Seed not reset from previous LHS execution
+
+------------------------------
+Begin  TRUE_FN Evaluation   24
+------------------------------
+Parameters for evaluation 24:
+                     -1.1935398711e+00 x1
+                      8.2834649901e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 24:
+Active set vector = { 1 }
+                     -2.1669549003e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   25
+------------------------------
+Parameters for evaluation 25:
+                     -1.0860394403e+00 x1
+                      8.4524242666e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 25:
+Active set vector = { 1 }
+                     -2.1402159360e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   26
+------------------------------
+Parameters for evaluation 26:
+                     -1.2110792243e+00 x1
+                      8.0000064827e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 26:
+Active set vector = { 1 }
+                     -2.1675867455e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   27
+------------------------------
+Parameters for evaluation 27:
+                     -1.1861599469e+00 x1
+                      7.6292287851e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 27:
+Active set vector = { 1 }
+                     -2.1680230189e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   28
+------------------------------
+Parameters for evaluation 28:
+                     -1.1639054507e+00 x1
+                      7.3297129184e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 28:
+Active set vector = { 1 }
+                     -2.1393402926e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   29
+------------------------------
+Parameters for evaluation 29:
+                     -1.2629793435e+00 x1
+                      7.4259579158e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 29:
+Active set vector = { 1 }
+                     -2.1595579520e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   30
+------------------------------
+Parameters for evaluation 30:
+                     -1.1150172310e+00 x1
+                      7.0621484973e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 30:
+Active set vector = { 1 }
+                     -2.0356659690e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   31
+------------------------------
+Parameters for evaluation 31:
+                     -1.1024155666e+00 x1
+                      8.7100663846e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 31:
+Active set vector = { 1 }
+                     -2.1653873399e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   32
+------------------------------
+Parameters for evaluation 32:
+                     -1.1358807331e+00 x1
+                      7.9034623621e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 32:
+Active set vector = { 1 }
+                     -2.1486721039e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   33
+------------------------------
+Parameters for evaluation 33:
+                     -1.2339723381e+00 x1
+                      8.9838623325e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 33:
+Active set vector = { 1 }
+                     -2.0782647846e-01 obj_fn
+
+
+
+>>>>> Appending 10 points to global_exp_gauss_proc approximations.
+
+<<<<< global_exp_gauss_proc approximation updates completed.
+Constructing global approximations with one anchor, 10 DACE samples, and 0 reused points.
+
+Surrogate quality metrics at build (training) points for obj_fn:
+   root_mean_squared  0.0000000000e+00
+
+Surrogate quality metrics (5-fold CV) for obj_fn:
+   root_mean_squared  4.2555150766e-03
+
+<<<<< global_exp_gauss_proc approximation builds completed.
+
+>>>>> Evaluating approximation at trust region center.
+
+>>>>> Starting approximate optimization cycle.
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.0667234563e-03 -2.2978262534e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.0479709350e-03  9.6660458472e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.0367195960e-03  1.2215789561e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.0199472392e-03 -7.3198294945e-04 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -9.8486183795e-04  1.3723895093e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  3.8466148007e-08  2.3055161760e-06 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  3.7965348752e-08 -1.5382758124e-10 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  5.9618943831e-11  1.2596769698e-08 ] obj_fn gradient
+
+
+
+<<<<< Approximate optimization cycle completed.
+
+>>>>> Evaluating approximate solution with actual model.
+
+------------------------------
+Begin  TRUE_FN Evaluation   34
+------------------------------
+Parameters for evaluation 34:
+                     -1.1638740068e+00 x1
+                      8.1194860677e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 34:
+Active set vector = { 1 }
+                     -2.1709870038e-01 obj_fn
+
+
+
+<<<<< Trust Region Ratio = 5.5794053159e-02:
+<<<<< Marginal Accuracy, ACCEPT Step, REDUCE Trust Region Size
+
+
+**************************************************************************
+Begin SBLM Iteration Number 4
+
+Current Trust Region for surrogate model
+                               Lower             Center              Upper
+              x1:  -1.2138740068e+00  -1.1638740068e+00  -1.1138740068e+00
+              x2:   7.6194860677e-01   8.1194860677e-01   8.6194860677e-01
+**************************************************************************
+
+>>>>> Building global_exp_gauss_proc approximations.
+
+NonD lhs Samples = 10 Seed not reset from previous LHS execution
+
+------------------------------
+Begin  TRUE_FN Evaluation   35
+------------------------------
+Parameters for evaluation 35:
+                     -1.1341689502e+00 x1
+                      8.0076694935e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 35:
+Active set vector = { 1 }
+                     -2.1531391692e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   36
+------------------------------
+Parameters for evaluation 36:
+                     -1.1201954061e+00 x1
+                      7.6315794604e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 36:
+Active set vector = { 1 }
+                     -2.1103618894e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   37
+------------------------------
+Parameters for evaluation 37:
+                     -1.2091830498e+00 x1
+                      7.7307645513e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 37:
+Active set vector = { 1 }
+                     -2.1720801619e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   38
+------------------------------
+Parameters for evaluation 38:
+                     -1.1498897538e+00 x1
+                      8.4899519896e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 38:
+Active set vector = { 1 }
+                     -2.1723266560e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   39
+------------------------------
+Parameters for evaluation 39:
+                     -1.2031128706e+00 x1
+                      8.2727323799e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 39:
+Active set vector = { 1 }
+                     -2.1629572362e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   40
+------------------------------
+Parameters for evaluation 40:
+                     -1.1248170637e+00 x1
+                      8.1836086118e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 40:
+Active set vector = { 1 }
+                     -2.1555063801e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   41
+------------------------------
+Parameters for evaluation 41:
+                     -1.1595608213e+00 x1
+                      8.5678169250e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 41:
+Active set vector = { 1 }
+                     -2.1709365262e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   42
+------------------------------
+Parameters for evaluation 42:
+                     -1.1924666438e+00 x1
+                      8.3682997331e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 42:
+Active set vector = { 1 }
+                     -2.1649028232e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   43
+------------------------------
+Parameters for evaluation 43:
+                     -1.1719408610e+00 x1
+                      7.9191903361e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 43:
+Active set vector = { 1 }
+                     -2.1696141030e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   44
+------------------------------
+Parameters for evaluation 44:
+                     -1.1836777757e+00 x1
+                      8.1180989928e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 44:
+Active set vector = { 1 }
+                     -2.1720669737e-01 obj_fn
+
+
+
+>>>>> Appending 10 points to global_exp_gauss_proc approximations.
+
+<<<<< global_exp_gauss_proc approximation updates completed.
+Constructing global approximations with one anchor, 10 DACE samples, and 0 reused points.
+
+Surrogate quality metrics at build (training) points for obj_fn:
+   root_mean_squared  0.0000000000e+00
+
+Surrogate quality metrics (5-fold CV) for obj_fn:
+   root_mean_squared  1.3512077726e-03
+
+<<<<< global_exp_gauss_proc approximation builds completed.
+
+>>>>> Evaluating approximation at trust region center.
+
+>>>>> Starting approximate optimization cycle.
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.7368423446e-02 -1.5117089138e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.3954157991e-02  1.6690593771e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.3954157991e-02  1.6690593771e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.1312746594e-02 -1.2537413417e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.9403714480e-02  3.3212042808e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -4.7825246480e-05  1.1917357831e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -4.8330692300e-05  4.2355134860e-06 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.1269592246e-05 -1.2859424328e-04 ] obj_fn gradient
+
+
+
+<<<<< Approximate optimization cycle completed.
+
+>>>>> Evaluating approximate solution with actual model.
+
+------------------------------
+Begin  TRUE_FN Evaluation   45
+------------------------------
+Parameters for evaluation 45:
+                     -1.1768514775e+00 x1
+                      8.1869671971e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 45:
+Active set vector = { 1 }
+                     -2.1722186264e-01 obj_fn
+
+
+
+<<<<< Trust Region Ratio = 9.3871714449e-02:
+<<<<< Marginal Accuracy, ACCEPT Step, REDUCE Trust Region Size
+
+
+**************************************************************************
+Begin SBLM Iteration Number 5
+
+Current Trust Region for surrogate model
+                               Lower             Center              Upper
+              x1:  -1.2018514775e+00  -1.1768514775e+00  -1.1518514775e+00
+              x2:   7.9369671971e-01   8.1869671971e-01   8.4369671971e-01
+**************************************************************************
+
+>>>>> Building global_exp_gauss_proc approximations.
+
+NonD lhs Samples = 10 Seed not reset from previous LHS execution
+
+------------------------------
+Begin  TRUE_FN Evaluation   46
+------------------------------
+Parameters for evaluation 46:
+                     -1.1542299760e+00 x1
+                      8.0771646949e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 46:
+Active set vector = { 1 }
+                     -2.1673232498e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   47
+------------------------------
+Parameters for evaluation 47:
+                     -1.1767176043e+00 x1
+                      8.0316853700e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 47:
+Active set vector = { 1 }
+                     -2.1719985293e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   48
+------------------------------
+Parameters for evaluation 48:
+                     -1.1966340045e+00 x1
+                      8.3820607445e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 48:
+Active set vector = { 1 }
+                     -2.1623795235e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   49
+------------------------------
+Parameters for evaluation 49:
+                     -1.1877345707e+00 x1
+                      8.1004388822e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 49:
+Active set vector = { 1 }
+                     -2.1717560670e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   50
+------------------------------
+Parameters for evaluation 50:
+                     -1.1670010861e+00 x1
+                      8.4069877861e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 50:
+Active set vector = { 1 }
+                     -2.1716546329e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   51
+------------------------------
+Parameters for evaluation 51:
+                     -1.1976949305e+00 x1
+                      8.1968033247e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 51:
+Active set vector = { 1 }
+                     -2.1676427359e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   52
+------------------------------
+Parameters for evaluation 52:
+                     -1.1594091728e+00 x1
+                      8.2760470584e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 52:
+Active set vector = { 1 }
+                     -2.1719733074e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   53
+------------------------------
+Parameters for evaluation 53:
+                     -1.1632645493e+00 x1
+                      8.1553226578e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 53:
+Active set vector = { 1 }
+                     -2.1713365179e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   54
+------------------------------
+Parameters for evaluation 54:
+                     -1.1846976621e+00 x1
+                      8.3007019946e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 54:
+Active set vector = { 1 }
+                     -2.1695240102e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   55
+------------------------------
+Parameters for evaluation 55:
+                     -1.1778450450e+00 x1
+                      7.9838995561e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 55:
+Active set vector = { 1 }
+                     -2.1717534239e-01 obj_fn
+
+
+
+>>>>> Appending 10 points to global_exp_gauss_proc approximations.
+
+<<<<< global_exp_gauss_proc approximation updates completed.
+Constructing global approximations with one anchor, 10 DACE samples, and 0 reused points.
+
+Surrogate quality metrics at build (training) points for obj_fn:
+   root_mean_squared  8.4727870082e-04
+
+Surrogate quality metrics (5-fold CV) for obj_fn:
+   root_mean_squared  1.7719740462e-04
+
+<<<<< global_exp_gauss_proc approximation builds completed.
+
+>>>>> Evaluating approximation at trust region center.
+
+>>>>> Starting approximate optimization cycle.
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -3.6972576324e+00  3.2130440040e+00 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  9.5508111793e-01 -4.7324222498e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.9684012276e-01 -1.0975379585e+00 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.9684012276e-01 -1.0975379585e+00 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.7252006431e+00 -8.2355630177e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.1528389104e-01  9.9709661398e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.2030049845e+00 -8.2887388325e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -2.9249170796e-02  2.0503678571e+00 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -5.7783071426e-01 -2.4811010622e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  6.3172131529e-01 -7.5636081026e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -5.3778185805e-02  1.0583752642e+00 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.0191321168e+00 -7.4158698972e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.1441486687e+00  1.6162450501e+00 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -7.1993037982e-01  1.1899280447e+00 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.0755336340e+00  1.2573268260e+00 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.0755336340e+00  1.2573268260e+00 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.0755336340e+00  1.2573268260e+00 ] obj_fn gradient
+
+
+
+<<<<< Approximate optimization cycle completed.
+
+>>>>> Evaluating approximate solution with actual model.
+
+------------------------------
+Begin  TRUE_FN Evaluation   56
+------------------------------
+Parameters for evaluation 56:
+                     -1.1927403014e+00 x1
+                      8.2209005841e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 56:
+Active set vector = { 1 }
+                     -2.1687735512e-01 obj_fn
+
+
+
+<<<<< Iterate rejected by Filter, Trust Region Ratio = -2.5933852335e-01:
+<<<<< Poor accuracy, REJECT Step, REDUCE Trust Region Size
+
+
+**************************************************************************
+Begin SBLM Iteration Number 6
+
+Current Trust Region for surrogate model
+                               Lower             Center              Upper
+              x1:  -1.1893514775e+00  -1.1768514775e+00  -1.1643514775e+00
+              x2:   8.0619671971e-01   8.1869671971e-01   8.3119671971e-01
+**************************************************************************
+
+>>>>> Building global_exp_gauss_proc approximations.
+
+NonD lhs Samples = 10 Seed not reset from previous LHS execution
+
+------------------------------
+Begin  TRUE_FN Evaluation   57
+------------------------------
+Parameters for evaluation 57:
+                     -1.1717014400e+00 x1
+                      8.0677988502e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 57:
+Active set vector = { 1 }
+                     -2.1716982419e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   58
+------------------------------
+Parameters for evaluation 58:
+                     -1.1860739573e+00 x1
+                      8.2661304807e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 58:
+Active set vector = { 1 }
+                     -2.1698100044e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   59
+------------------------------
+Parameters for evaluation 59:
+                     -1.1735707618e+00 x1
+                      8.3051182034e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 59:
+Active set vector = { 1 }
+                     -2.1717487350e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   60
+------------------------------
+Parameters for evaluation 60:
+                     -1.1808303602e+00 x1
+                      8.1647119122e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 60:
+Active set vector = { 1 }
+                     -2.1720340165e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   61
+------------------------------
+Parameters for evaluation 61:
+                     -1.1819899240e+00 x1
+                      8.2148994147e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 61:
+Active set vector = { 1 }
+                     -2.1714467467e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   62
+------------------------------
+Parameters for evaluation 62:
+                     -1.1748221621e+00 x1
+                      8.1052892991e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 62:
+Active set vector = { 1 }
+                     -2.1722394079e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   63
+------------------------------
+Parameters for evaluation 63:
+                     -1.1677867338e+00 x1
+                      8.2541275216e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 63:
+Active set vector = { 1 }
+                     -2.1723356095e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   64
+------------------------------
+Parameters for evaluation 64:
+                     -1.1878685000e+00 x1
+                      8.1340745529e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 64:
+Active set vector = { 1 }
+                     -2.1713976385e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   65
+------------------------------
+Parameters for evaluation 65:
+                     -1.1787810881e+00 x1
+                      8.1566754279e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 65:
+Active set vector = { 1 }
+                     -2.1722284390e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   66
+------------------------------
+Parameters for evaluation 66:
+                     -1.1651173642e+00 x1
+                      8.1941252041e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 66:
+Active set vector = { 1 }
+                     -2.1719634127e-01 obj_fn
+
+
+
+>>>>> Appending 10 points to global_exp_gauss_proc approximations.
+
+<<<<< global_exp_gauss_proc approximation updates completed.
+Constructing global approximations with one anchor, 10 DACE samples, and 0 reused points.
+
+Surrogate quality metrics at build (training) points for obj_fn:
+   root_mean_squared  1.0615389988e-07
+
+Surrogate quality metrics (5-fold CV) for obj_fn:
+   root_mean_squared  1.6915389941e-05
+
+<<<<< global_exp_gauss_proc approximation builds completed.
+
+>>>>> Evaluating approximation at trust region center.
+
+>>>>> Starting approximate optimization cycle.
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -6.2289170793e-03  1.0527502675e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.9068954154e-02  4.2161346553e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.9068954154e-02  4.2161346553e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  2.9068954154e-02  4.2161346553e-02 ] obj_fn gradient
+
+
+
+<<<<< Approximate optimization cycle completed.
+
+>>>>> Evaluating approximate solution with actual model.
+
+------------------------------
+Begin  TRUE_FN Evaluation   67
+------------------------------
+Parameters for evaluation 67:
+                     -1.1766973992e+00 x1
+                      8.1609263940e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 67:
+Active set vector = { 1 }
+                     -2.1723052042e-01 obj_fn
+
+
+
+<<<<< Trust Region Ratio = 6.5213214642e-01:
+<<<<< Satisfactory Accuracy, ACCEPT Step, RETAIN Trust Region Size
+
+
+**************************************************************************
+Begin SBLM Iteration Number 7
+
+Current Trust Region for surrogate model
+                               Lower             Center              Upper
+              x1:  -1.1891973992e+00  -1.1766973992e+00  -1.1641973992e+00
+              x2:   8.0359263940e-01   8.1609263940e-01   8.2859263940e-01
+**************************************************************************
+
+>>>>> Building global_exp_gauss_proc approximations.
+
+NonD lhs Samples = 10 Seed not reset from previous LHS execution
+
+------------------------------
+Begin  TRUE_FN Evaluation   68
+------------------------------
+Parameters for evaluation 68:
+                     -1.1770131061e+00 x1
+                      8.0810726144e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 68:
+Active set vector = { 1 }
+                     -2.1722652728e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   69
+------------------------------
+Parameters for evaluation 69:
+                     -1.1868741765e+00 x1
+                      8.2621368206e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 69:
+Active set vector = { 1 }
+                     -2.1696681293e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   70
+------------------------------
+Parameters for evaluation 70:
+                     -1.1715012836e+00 x1
+                      8.1768401539e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 70:
+Active set vector = { 1 }
+                     -2.1723069645e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   71
+------------------------------
+Parameters for evaluation 71:
+                     -1.1668168889e+00 x1
+                      8.2382429520e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 71:
+Active set vector = { 1 }
+                     -2.1722950996e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   72
+------------------------------
+Parameters for evaluation 72:
+                     -1.1812397888e+00 x1
+                      8.2101733714e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 72:
+Active set vector = { 1 }
+                     -2.1716106744e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   73
+------------------------------
+Parameters for evaluation 73:
+                     -1.1829225519e+00 x1
+                      8.0366895313e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 73:
+Active set vector = { 1 }
+                     -2.1723358727e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   74
+------------------------------
+Parameters for evaluation 74:
+                     -1.1723943680e+00 x1
+                      8.2349278891e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 74:
+Active set vector = { 1 }
+                     -2.1722740788e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   75
+------------------------------
+Parameters for evaluation 75:
+                     -1.1650696500e+00 x1
+                      8.1606955194e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 75:
+Active set vector = { 1 }
+                     -2.1716734272e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   76
+------------------------------
+Parameters for evaluation 76:
+                     -1.1764050233e+00 x1
+                      8.1292841155e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 76:
+Active set vector = { 1 }
+                     -2.1723350563e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   77
+------------------------------
+Parameters for evaluation 77:
+                     -1.1846088278e+00 x1
+                      8.0904452657e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 77:
+Active set vector = { 1 }
+                     -2.1721453405e-01 obj_fn
+
+
+
+>>>>> Appending 10 points to global_exp_gauss_proc approximations.
+
+<<<<< global_exp_gauss_proc approximation updates completed.
+Constructing global approximations with one anchor, 10 DACE samples, and 0 reused points.
+
+Surrogate quality metrics at build (training) points for obj_fn:
+   root_mean_squared  0.0000000000e+00
+
+Surrogate quality metrics (5-fold CV) for obj_fn:
+   root_mean_squared  4.9306439299e-05
+
+<<<<< global_exp_gauss_proc approximation builds completed.
+
+>>>>> Evaluating approximation at trust region center.
+
+>>>>> Starting approximate optimization cycle.
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -6.3953715243e-03 -1.4617204962e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -6.3953715243e-03 -1.4617204962e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -6.3953715243e-03 -1.4617204962e-01 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -6.3895369774e-03  8.6962869630e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.4192102692e-05  6.8133719933e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.6234237165e-03  2.0956435940e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.6234237165e-03  2.0956435940e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.6234237165e-03  2.0956435940e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.6224678123e-03 -1.1934654493e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.6190215518e-03  2.5848302004e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.3340227275e-03 -2.4853529634e-02 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.3332928656e-03 -1.9756863530e-04 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  1.3148667500e-03  6.4859648975e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  9.0099349171e-06  8.8662258179e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  9.0044593083e-06  1.5998601611e-04 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  8.9995277108e-06  6.5832844357e-07 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  8.7106331024e-06 -6.6742968398e-05 ] obj_fn gradient
+
+
+
+<<<<< Approximate optimization cycle completed.
+
+>>>>> Evaluating approximate solution with actual model.
+
+------------------------------
+Begin  TRUE_FN Evaluation   78
+------------------------------
+Parameters for evaluation 78:
+                     -1.1734656942e+00 x1
+                      8.0904239130e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 78:
+Active set vector = { 1 }
+                     -2.1720714491e-01 obj_fn
+
+
+
+<<<<< Iterate rejected by Filter, Trust Region Ratio = -2.1836435030e-01:
+<<<<< Poor accuracy, REJECT Step, REDUCE Trust Region Size
+
+
+**************************************************************************
+Begin SBLM Iteration Number 8
+
+Current Trust Region for surrogate model
+                               Lower             Center              Upper
+              x1:  -1.1829473992e+00  -1.1766973992e+00  -1.1704473992e+00
+              x2:   8.0984263940e-01   8.1609263940e-01   8.2234263940e-01
+**************************************************************************
+
+>>>>> Building global_exp_gauss_proc approximations.
+
+NonD lhs Samples = 10 Seed not reset from previous LHS execution
+
+------------------------------
+Begin  TRUE_FN Evaluation   79
+------------------------------
+Parameters for evaluation 79:
+                     -1.1783497686e+00 x1
+                      8.2213490694e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 79:
+Active set vector = { 1 }
+                     -2.1718833232e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   80
+------------------------------
+Parameters for evaluation 80:
+                     -1.1757722757e+00 x1
+                      8.1883450167e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 80:
+Active set vector = { 1 }
+                     -2.1722689087e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   81
+------------------------------
+Parameters for evaluation 81:
+                     -1.1716164548e+00 x1
+                      8.1639863948e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 81:
+Active set vector = { 1 }
+                     -2.1722798132e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   82
+------------------------------
+Parameters for evaluation 82:
+                     -1.1810614844e+00 x1
+                      8.1541690171e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 82:
+Active set vector = { 1 }
+                     -2.1720786991e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   83
+------------------------------
+Parameters for evaluation 83:
+                     -1.1798500974e+00 x1
+                      8.1215505631e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 83:
+Active set vector = { 1 }
+                     -2.1722908881e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   84
+------------------------------
+Parameters for evaluation 84:
+                     -1.1747547178e+00 x1
+                      8.2058281807e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 84:
+Active set vector = { 1 }
+                     -2.1722597283e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   85
+------------------------------
+Parameters for evaluation 85:
+                     -1.1768723737e+00 x1
+                      8.1390601611e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 85:
+Active set vector = { 1 }
+                     -2.1723323954e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   86
+------------------------------
+Parameters for evaluation 86:
+                     -1.1732481327e+00 x1
+                      8.1857339491e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 86:
+Active set vector = { 1 }
+                     -2.1723353906e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   87
+------------------------------
+Parameters for evaluation 87:
+                     -1.1721801749e+00 x1
+                      8.1046821699e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 87:
+Active set vector = { 1 }
+                     -2.1720443228e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   88
+------------------------------
+Parameters for evaluation 88:
+                     -1.1823140269e+00 x1
+                      8.1320411264e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 88:
+Active set vector = { 1 }
+                     -2.1721016746e-01 obj_fn
+
+
+
+>>>>> Appending 10 points to global_exp_gauss_proc approximations.
+
+<<<<< global_exp_gauss_proc approximation updates completed.
+Constructing global approximations with one anchor, 10 DACE samples, and 0 reused points.
+
+Surrogate quality metrics at build (training) points for obj_fn:
+   root_mean_squared  9.0622195889e-15
+
+Surrogate quality metrics (5-fold CV) for obj_fn:
+   root_mean_squared  2.5959578865e-05
+
+<<<<< global_exp_gauss_proc approximation builds completed.
+
+>>>>> Evaluating approximation at trust region center.
+
+>>>>> Starting approximate optimization cycle.
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -3.0008994637e-03  2.0819559000e-03 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.4135692804e-06 -3.7022271888e-06 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.4962402699e-05  5.7231036900e-06 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [ -1.2212920248e-05  5.3938630115e-06 ] obj_fn gradient
+
+
+
+<<<<< Approximate optimization cycle completed.
+
+>>>>> Evaluating approximate solution with actual model.
+
+------------------------------
+Begin  TRUE_FN Evaluation   89
+------------------------------
+Parameters for evaluation 89:
+                     -1.1743707798e+00 x1
+                      8.1645605070e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 89:
+Active set vector = { 1 }
+                     -2.1723362821e-01 obj_fn
+
+
+
+<<<<< Trust Region Ratio = 9.9749363236e-01:
+<<<<< Excellent Accuracy, Iterate in Trust Region Interior, ACCEPT Step, RETAIN Trust Region Size
+
+
+**************************************************************************
+Begin SBLM Iteration Number 9
+
+Current Trust Region for surrogate model
+                               Lower             Center              Upper
+              x1:  -1.1806207798e+00  -1.1743707798e+00  -1.1681207798e+00
+              x2:   8.1020605070e-01   8.1645605070e-01   8.2270605070e-01
+**************************************************************************
+
+>>>>> Building global_exp_gauss_proc approximations.
+
+NonD lhs Samples = 10 Seed not reset from previous LHS execution
+
+------------------------------
+Begin  TRUE_FN Evaluation   90
+------------------------------
+Parameters for evaluation 90:
+                     -1.1695254611e+00 x1
+                      8.2013265417e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 90:
+Active set vector = { 1 }
+                     -2.1722988282e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   91
+------------------------------
+Parameters for evaluation 91:
+                     -1.1801813898e+00 x1
+                      8.1600354335e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 91:
+Active set vector = { 1 }
+                     -2.1721180314e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   92
+------------------------------
+Parameters for evaluation 92:
+                     -1.1730383647e+00 x1
+                      8.1765412867e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 92:
+Active set vector = { 1 }
+                     -2.1723344841e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   93
+------------------------------
+Parameters for evaluation 93:
+                     -1.1716389009e+00 x1
+                      8.1341703726e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 93:
+Active set vector = { 1 }
+                     -2.1721663324e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   94
+------------------------------
+Parameters for evaluation 94:
+                     -1.1786982552e+00 x1
+                      8.1822832426e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 94:
+Active set vector = { 1 }
+                     -2.1721133893e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   95
+------------------------------
+Parameters for evaluation 95:
+                     -1.1746379489e+00 x1
+                      8.2245608918e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 95:
+Active set vector = { 1 }
+                     -2.1721935632e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   96
+------------------------------
+Parameters for evaluation 96:
+                     -1.1736691096e+00 x1
+                      8.2039319600e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 96:
+Active set vector = { 1 }
+                     -2.1723062122e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   97
+------------------------------
+Parameters for evaluation 97:
+                     -1.1757208111e+00 x1
+                      8.1461322523e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 97:
+Active set vector = { 1 }
+                     -2.1723362462e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   98
+------------------------------
+Parameters for evaluation 98:
+                     -1.1769669407e+00 x1
+                      8.1027734377e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 98:
+Active set vector = { 1 }
+                     -2.1723158304e-01 obj_fn
+
+
+
+------------------------------
+Begin  TRUE_FN Evaluation   99
+------------------------------
+Parameters for evaluation 99:
+                     -1.1688438909e+00 x1
+                      8.1249254355e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 99:
+Active set vector = { 1 }
+                     -2.1718388963e-01 obj_fn
+
+
+
+>>>>> Appending 10 points to global_exp_gauss_proc approximations.
+
+<<<<< global_exp_gauss_proc approximation updates completed.
+Constructing global approximations with one anchor, 10 DACE samples, and 0 reused points.
+
+Surrogate quality metrics at build (training) points for obj_fn:
+   root_mean_squared  0.0000000000e+00
+
+Surrogate quality metrics (5-fold CV) for obj_fn:
+   root_mean_squared  3.0114294025e-05
+
+<<<<< global_exp_gauss_proc approximation builds completed.
+
+>>>>> Evaluating approximation at trust region center.
+
+>>>>> Starting approximate optimization cycle.
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  7.5158159580e-04 -4.1989094967e-04 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  7.5158159580e-04 -4.1989094967e-04 ] obj_fn gradient
+
+
+
+------------------------------------------
+Begin Dakota derivative estimation routine
+------------------------------------------
+
+>>>>> Dakota finite difference gradient evaluation for x[1] + h:
+>>>>> Dakota finite difference gradient evaluation for x[1] - h:
+>>>>> Dakota finite difference gradient evaluation for x[2] + h:
+>>>>> Dakota finite difference gradient evaluation for x[2] - h:
+>>>>> Gradients returned to iterator:
+
+Active set vector = { 2 } Deriv vars vector = { 1 2 }
+ [  7.5158159580e-04 -4.1989094967e-04 ] obj_fn gradient
+
+
+
+<<<<< Approximate optimization cycle completed.
+
+>>>>> Evaluating approximate solution with actual model.
+
+------------------------------
+Begin  TRUE_FN Evaluation  100
+------------------------------
+Parameters for evaluation 100:
+                     -1.1743707798e+00 x1
+                      8.1645605070e-01 x2
+
+blocking fork: sinc x.in y.out
+
+Active response data for TRUE_FN evaluation 100:
+Active set vector = { 1 }
+                     -2.1723362821e-01 obj_fn
+
+
+
+<<<<< Iterate rejected by Filter, Trust Region Ratio = 0.0000000000e+00:
+<<<<< Poor accuracy, REJECT Step, REDUCE Trust Region Size
+
+
+Surrogate-Based Optimization Complete:
+Soft Convergence: Progress Between 5 Successive Iterations <= Conv Tol
+Total Number of Trust Region Minimizations Performed = 9
+<<<<< Function evaluation summary (APPROX_INTERFACE_1): 536 total (536 new, 0 duplicate)
+<<<<< Function evaluation summary (TRUE_FN): 100 total (100 new, 0 duplicate)
+<<<<< Best parameters          =
+                     -1.1743707798e+00 x1
+                      8.1645605070e-01 x2
+<<<<< Best objective function  =
+                     -2.1723362821e-01
+<<<<< Best evaluation ID not available
+(This warning may occur when the best iterate is comprised of multiple interface
+evaluations or arises from a composite, surrogate, or transformation model.)
+
+
+<<<<< Iterator surrogate_based_local completed.
+<<<<< Environment execution completed.
+DAKOTA execution time in seconds:
+  Total CPU        =   0.841944 [parent =    0.84191, child =    3.4e-05]
+  Total wall clock =    8.57616

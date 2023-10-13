@@ -1,0 +1,32 @@
+Notes on Dakota
+
+================================================================================
+The four import/export formats are:
+
+text_archive (TA): Plain-text, machine-readable archive for re-import or use
+with the surfpack executable.
+
+binary_archive (BA): Binary, machine-readable archive for re-import or use with
+the surfpack executable.
+
+algebraic_file (AF): Plain-text, human-readable file intended for use with
+user-created tools; not compatible with Dakota or the surfpack executable.
+
+algebraic_console (AC): Print the model in algebraic format to the screen; not
+compatible with Dakota or the surfpack executable.
+
+
+These global surrogates can be exported in the following formats:
+
+gaussian_process (surfpack): TA, BA, AF, AC
+neural_network: TA, BA, AF, AC
+radial_basis: TA, BA, AF, AC
+polynomial: TA, BA, AF, AC
+experimental_gaussian_process: TA, BA
+experimental_polynomial: TA, BA
+moving_least_squares: TA, BA
+mars: TA, BA
+
+No other surrogate models can be exported.
+
+================================================================================

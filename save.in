@@ -1,0 +1,77 @@
+# Dakota Input File: model creation and export
+
+environment
+  tabular_data
+    tabular_data_file = 'model.dat'
+  top_method_pointer = 'TOP'
+
+# a dummy method that calls the model
+method
+  id_method = 'TOP'
+  sampling
+    model_pointer = 'SURROGATE'
+    sample_type random
+    samples 10
+
+# GP surrogate
+model
+  id_model = 'SURROGATE'
+  surrogate global
+    dace_method_pointer = 'SAMPLING'
+    experimental_gaussian_process
+      metrics 'root_mean_squared'
+        cross_validation folds 10
+      export_model
+        filename_prefix = 'surr_model'
+        formats
+          binary_archive
+          text_archive
+      export_approx_points_file 'surrogate_values.dat'
+      export_approx_variance_file 'surrogate_variance.dat'
+  variables_pointer = 'SURR_VARS'
+  responses_pointer = 'SURR_RESP'
+
+variables
+  id_variables = 'SURR_VARS'
+  continuous_design = 2
+    initial_point    1.0  1.0
+    lower_bounds    -2.0 -2.0
+    upper_bounds     2.0  2.0
+    descriptors      'x1' 'x2'
+
+responses
+  id_responses = 'SURR_RESP'
+  objective_functions = 1
+  numerical_gradients
+    method_source dakota
+    interval_type central
+    fd_step_size = 1.e-6
+  no_hessians
+
+method
+  id_method = 'SAMPLING'
+  sampling
+    samples = 10
+    seed = 531
+    sample_type lhs
+    model_pointer = 'SIM'
+
+model
+  id_model = 'SIM'
+  single
+    interface_pointer = 'SIM_FUNC'
+    responses_pointer = 'SIM_RESP'
+
+interface
+  id_interface = 'SIM_FUNC'
+  analysis_drivers = 'sinc'
+    fork
+    parameters_file = 'x.in'
+    results_file    = 'y.out'
+  deactivate evaluation_cache restart_file
+
+responses
+  id_responses = 'SIM_RESP'
+  objective_functions = 1
+  no_gradients
+  no_hessians

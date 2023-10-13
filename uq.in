@@ -1,0 +1,32 @@
+# Dakota configuration file for Monte Carlo sampling 
+
+environment
+  tabular_data
+    tabular_data_file = "uq.dat"
+
+method
+  sampling
+    sample_type random
+    samples = 200
+    seed = 17
+    response_levels = 100.0
+
+model
+  single
+
+variables
+  uniform_uncertain = 2
+    lower_bounds -2.0 -2.0
+    upper_bounds  2.0  2.0
+    descriptors  "x1" "x2"
+
+interface
+  analysis_drivers = "sinc"
+    fork
+    parameters_file = "x.in"
+    results_file    = "y.out"
+
+responses
+  response_functions = 1
+  no_gradients
+  no_hessians

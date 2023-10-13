@@ -1,0 +1,26 @@
+# Dakota Input File: rosen_opt_ego.in
+
+environment
+  tabular_data
+    tabular_data_file = 'ego.dat'
+
+method
+  efficient_global
+    seed = 123456
+
+variables
+  continuous_design = 2
+    lower_bounds   -2.0 -2.0
+    upper_bounds    2.0  2.0
+    descriptors     'x1' 'x2'
+
+interface
+  analysis_drivers = 'sinc'
+    fork
+    parameters_file = 'x.in'
+    results_file    = 'y.out'
+
+responses
+  objective_functions = 1
+  no_gradients
+  no_hessians

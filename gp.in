@@ -1,0 +1,6 @@
+surrogate global gaussian_process surfpack
+  export_model
+    filename_prefix = 'my_surrogate'
+      formats
+        algebraic_file
+        binary_archive

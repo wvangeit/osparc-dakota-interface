@@ -1,0 +1,96 @@
+# Dakota Input File: rosen_opt_sbo.in
+
+environment
+  tabular_data
+    tabular_data_file = 'sbo.dat'
+  top_method_pointer = 'SBLO'
+
+method
+  id_method = 'SBLO'
+  surrogate_based_local
+    model_pointer = 'SURROGATE'
+    method_pointer = 'NLP'
+    max_iterations = 500
+  trust_region
+    initial_size = 0.10
+    minimum_size = 1.0e-6
+    contract_threshold = 0.25
+    expand_threshold   = 0.75
+    contraction_factor = 0.50
+    expansion_factor   = 1.50
+
+method
+  id_method = 'NLP'
+  conmin_frcg
+    max_iterations = 50
+    convergence_tolerance = 1e-8
+
+# PRS surrogate
+# model
+#   id_model = 'SURROGATE'
+#   surrogate global
+#     correction additive zeroth_order
+#     polynomial quadratic
+#     dace_method_pointer = 'SAMPLING'
+#   responses_pointer = 'SURROGATE_RESP'
+# GP surrogate
+model
+  id_model = 'SURROGATE'
+  surrogate global
+    dace_method_pointer = 'SAMPLING'
+    experimental_gaussian_process
+      metrics 'root_mean_squared'
+        cross_validation folds 5
+      export_model
+        filename_prefix = 'gp_export'
+        # formats = binary_archive
+        formats = text_archive
+      export_approx_points_file 'gp_values.dat'
+      export_approx_variance_file 'gp_variance.dat'
+  variables_pointer = 'SURROGATE_VARS'
+  responses_pointer = 'SURROGATE_RESP'
+
+variables
+  id_variables = 'SURROGATE_VARS'
+  continuous_design = 2
+    initial_point   -1.2  1.0
+    lower_bounds    -2.0 -2.0
+    upper_bounds     2.0  2.0
+    descriptors      'x1' 'x2'
+
+responses
+  id_responses = 'SURROGATE_RESP'
+  objective_functions = 1
+  numerical_gradients
+    method_source dakota
+    interval_type central
+    fd_step_size = 1.e-6
+  no_hessians
+
+method
+  id_method = 'SAMPLING'
+  sampling
+    samples = 10
+    seed = 531
+    sample_type lhs
+    model_pointer = 'TRUTH'
+
+model
+  id_model = 'TRUTH'
+  single
+    interface_pointer = 'TRUE_FN'
+    responses_pointer = 'TRUE_RESP'
+
+interface
+  id_interface = 'TRUE_FN'
+  analysis_drivers = 'sinc'
+    fork
+    parameters_file = 'x.in'
+    results_file    = 'y.out'
+  deactivate evaluation_cache restart_file
+
+responses
+  id_responses = 'TRUE_RESP'
+  objective_functions = 1
+  no_gradients
+  no_hessians

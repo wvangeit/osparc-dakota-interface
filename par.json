@@ -1,0 +1,1 @@
+{"service": {"pypath": "sinc.sinc", "shpath": "sinc"}, "variables": [{"name": "x", "type": "list[float]"}], "parameters": [{"name": "a", "type": "float", "value": "3.14159265358979323846"}], "functions": [{"name": "f", "type": "float"}]}
