@@ -20,7 +20,7 @@ def to_jsonobj(jsonstr):
 
 
 def to_jsonstr(jsonobj):
-    return json.dumps(jsonobj)
+    return json.dumps(jsonobj, indent=4)
 
 
 def read_wsv(filename=None):
@@ -46,8 +46,9 @@ def write_wsv(slines, filename=None):
                          for line in slines))
         sys.stdout.write('\n')
     else:
+        file_content = '\n'.join(' '.join(map(str, line)) for line in slines)
         with open(filename, 'w') as f:
-            f.write('\n'.join(' '.join(map(str, line)) for line in slines))
+            f.write(file_content)
 
 # ==============================================================================
 # dakota io
